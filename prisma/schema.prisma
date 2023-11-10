@@ -11,25 +11,25 @@ datasource db {
 }
 
 model Profile {
-  id     Int     @id @default(autoincrement())
-  name  String
-  gender  String
-  age Int
-  city  String
+  id                Int        @id @default(autoincrement())
+  name              String
+  gender            String     @db.Char(6)
+  age               Int
+  city              String?    @db.VarChar(50)
   lengthAtResidence Int
-  education Int
-  financials   Financials?
+  education         Int?
+  financial         Financial?
 }
 
-model Financials {
-  id      Int      @id @default(autoincrement())
-  clientId Int @unique
-  income  Int
-  houseValue  Int
-  employmentYears Int
+model Financial {
+  id                  Int     @id @default(autoincrement())
+  clientId            Int     @unique
+  income              Int
+  houseValue          Int
+  employmentYears     Int
   employmentCategory  Int
-  creditCardDebt  Int
+  creditCardDebt      Int
   charitableDonations Int
-  goldMembership  Int
-  profile Profile  @relation(fields: [clientId], references: [id])
+  goldMembership      Int
+  profile             Profile @relation(fields: [clientId], references: [id])
 }

@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "type": "module",
   "prisma": {
     "seed": "node prisma/seed.js"
   },

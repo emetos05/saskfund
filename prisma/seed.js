@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import parseCSV from "../utils/csvParser.js";
+const { PrismaClient } = require("@prisma/client");
+const parseCSV = require("../utils/csvParser.js");
 
 // File paths
 const profileFilePath = "data/Clients_Personal.csv";
@@ -60,10 +60,6 @@ const main = async () => {
       goldMembership,
     })
   );
-
-  // console.log(allProfile);
-  // await prisma.profile.deleteMany();
-  // await prisma.financial.deleteMany();
 
   await prisma.profile.createMany({
     data: allProfile,

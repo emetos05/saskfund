@@ -1,5 +1,5 @@
-import fs from "fs";
-import { parse } from "csv-parse";
+const fs = require("fs");
+const { parse } = require("csv-parse");
 
 const parseCSV = async (csv) => {
   const data = [];
@@ -12,4 +12,4 @@ const parseCSV = async (csv) => {
   });
 };
 
-export default parseCSV;
+module.exports = parseCSV;

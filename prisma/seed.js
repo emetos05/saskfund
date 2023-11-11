@@ -1,12 +1,9 @@
-const { PrismaClient } = require("@prisma/client");
 const parseCSV = require("../utils/csvParser.js");
+const db = require("../utils/db.js");
 
 // File paths
 const profileFilePath = "data/Clients_Personal.csv";
 const financialFilePath = "data/Clients_Financial.csv";
-
-// Instantiate Prisma Client
-const prisma = new PrismaClient();
 
 // Seeding function
 const main = async () => {
@@ -61,11 +58,11 @@ const main = async () => {
     })
   );
 
-  await prisma.profile.createMany({
+  await db.profile.createMany({
     data: allProfile,
   });
 
-  await prisma.financial.createMany({
+  await db.financial.createMany({
     data: allFinancial,
   });
 
@@ -78,5 +75,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    await db.$disconnect();
   });

@@ -1,0 +1,8 @@
+.clientData h1 {
+  font-weight: 600;
+}
+
+.clientData div:nth-child(-n + 3) {
+  border-bottom-width: 0.1em;
+  margin-bottom: 0.2rem;
+}

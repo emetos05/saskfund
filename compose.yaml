@@ -1,0 +1,24 @@
+services:
+  db:
+    container_name: saskfund_db
+    image: postgres:17.4
+    restart: always
+    env_file:
+      - .env     
+    ports:
+      - '5432:5432'
+    volumes:
+      - saskfund_data:/var/lib/postgresql/data    
+
+  pgadmin:
+    container_name: saskfund_pgadmin
+    image: dpage/pgadmin4:8.14
+    restart: always
+    env_file:
+      - .env    
+    ports:
+      - '5050:80'
+volumes:
+  saskfund_data:
+  
+

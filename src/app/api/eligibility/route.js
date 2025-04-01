@@ -20,11 +20,20 @@ const livingCost = {
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
+  const name = searchParams.get("name");
 
   try {
     let clientData;
 
     if (id) {
+      // Validate ID is a number
+      if (isNaN(parseInt(id))) {
+        return NextResponse.json(
+          { error: "Invalid ID format. Please enter a valid number." },
+          { status: 400 }
+        );
+      }
+
       clientData = await db.profile.findUnique({
         where: {
           id: parseInt(id),
@@ -47,57 +56,105 @@ export async function GET(request) {
           },
         },
       });
+    } else if (name) {
+      // Validate name is not empty and has minimum length
+      if (name.trim().length < 2) {
+        return NextResponse.json(
+          { error: "Name must be at least 2 characters long." },
+          { status: 400 }
+        );
+      }
+
+      const profiles = await db.profile.findMany({
+        where: {
+          name: { contains: name, mode: 'insensitive' },
+        },
+        select: {
+          id: true,
+          name: true,
+          age: true,
+          city: true,
+          lengthAtResidence: true,
+          education: true,
+          financial: {
+            select: {
+              income: true,
+              houseValue: true,
+              creditCardDebt: true,
+              charitableDonations: true,
+              goldMembership: true,
+            },
+          },
+        },
+      });
+
+      if (profiles.length === 0) {
+        return NextResponse.json(
+          { error: "No client found with this name" },
+          { status: 404 }
+        );
+      }
+
+      if (profiles.length > 1) {
+        return NextResponse.json(
+          { 
+            error: "Multiple clients found. Please use client ID instead.",
+            profiles: profiles.map(p => ({ id: p.id, name: p.name }))
+          },
+          { status: 400 }
+        );
+      }
+
+      clientData = profiles[0];
     } else {
-      return NextResponse.json({ error: "Enter client ID" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Please enter either a name or ID" },
+        { status: 400 }
+      );
     }
 
-    if (clientData) {
-      const minDebtPaymentMonthly =
-        (clientData.financial.creditCardDebt / 12) * 0.18;
-
-      const monthlyLivingCost = clientData.city
-        ? livingCost[clientData.city.toLowerCase()]
-        : baseLivingCost;
-
-      const deductions =
-        minDebtPaymentMonthly +
-        clientData.financial.charitableDonations / 12 +
-        monthlyLivingCost;
-
-      if (
-        (clientData.age >= 25 ||
-          (clientData.age > 21 && clientData.education > 3)) &&
-        clientData.financial.houseValue === 0 &&
-        clientData.lengthAtResidence <= 5 &&
-        clientData.financial.income / 12 - deductions > 0
-      ) {
-        eligibility = true;
-        maxMonthlyPayment = (clientData.financial.income / 12) * 0.4;
-        if (clientData.financial.goldMembership) {
-          maxMonthlyPayment = (clientData.financial.income / 12) * 0.45;
-        }
-      }
+    if (!clientData) {
       return NextResponse.json(
-        {
-          name: clientData.name,
-          clientId: clientData.id,
-          eligibility,
-          maxMonthlyPayment,
-        },
-        { status: 200 }
-      );
-    } else {
-      return NextResponse.json(
-        { msg: "Client data not found" },
+        { error: "Client not found" },
         { status: 404 }
       );
     }
+ 
+    // Calculate eligibility
+    const city = clientData.city?.toLowerCase() || 'provincial';
+    const monthlyLivingCost = livingCost[city] || livingCost.provincial;
+
+    const monthlyIncome = clientData.financial.income / 12;
+    const monthlyCreditCardDebt = clientData.financial.creditCardDebt / 12;
+    const monthlyCharitableDonations = clientData.financial.charitableDonations / 12;
+
+    const minMonthlyDebtPayment = monthlyCreditCardDebt * 0.18;
+    const deductions = minMonthlyDebtPayment + monthlyCharitableDonations + monthlyLivingCost; 
+
+    maxMonthlyPayment = clientData.financial.goldMembership ? monthlyIncome * 0.45 : monthlyIncome * 0.4;
+
+    // eligibility = monthlyIncome - deductions > maxMonthlyPayment;
+
+    if (
+      (clientData.age >= 25 || (clientData.age > 21 && clientData.education > 3)) 
+        && clientData.financial.houseValue === 0 
+        && clientData.lengthAtResidence <= 5 
+        && monthlyIncome - deductions > 0
+    ) {
+      eligibility = true;      
+    } 
+
+    return NextResponse.json({
+      clientId: clientData.id,
+      name: clientData.name,
+      eligibility,
+      maxMonthlyPayment: Math.round(maxMonthlyPayment)
+    });
+
   } catch (error) {
-    console.error("Error fetching profile", error);
+    console.error("Error checking eligibility:", error);
     return NextResponse.json(
-      {
-        error: "Internal Server Error",
-      },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   } finally {

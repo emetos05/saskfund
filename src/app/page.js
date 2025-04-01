@@ -7,77 +7,84 @@ import styles from "./home.module.css";
 import ClientDetails from "./components/clientDetails";
 
 export default function Home() {
-  let name = "";
-  let id = 0;
-  let url;
-
   const [term, setTerm] = useState("");
   const [isProfile, setIsProfile] = useState(false);
   const [allProfile, setAllProfile] = useState([]);
   const [eligibility, setEligibility] = useState({});
-
-  isNaN(+term) ? (name = term) : (id = +term);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getClient = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+    setIsProfile(true);
+    setEligibility({});
 
-    id > 0
-      ? (url = `/api/profile?id=${id}`)
-      : (url = `/api/profile?name=${name}`);
+    try {
+      const url = term.trim().length > 0 
+        ? `/api/profile?${isNaN(term) ? 'name' : 'id'}=${term}`
+        : null;
 
-    const res = await fetch(url);
-    if (res) {
-      const json = await res.json();
-      const data = json.clientProfile;
-
-      if (id) {
-        const profileData = {
-          id: data.id,
-          name: data.name,
-          gender: data.gender,
-          age: data.age,
-          city: data.city,
-          goldMembership: data.financial.goldMembership === 0 ? "No" : "Yes",
-        };
-        setAllProfile([profileData]);
-      } else if (name) {
-        const manyProfile = [];
-
-        data.map((profile) => {
-          const profileData = {
-            id: profile.id,
-            name: profile.name,
-            gender: profile.gender,
-            age: profile.age,
-            city: profile.city,
-            goldMembership:
-              profile.financial.goldMembership === 0 ? "No" : "Yes",
-          };
-          manyProfile.push(profileData);
-        });
-        setAllProfile(manyProfile);
+      if (!url) {
+        setError("Please enter a valid name or ID");
+        return;
       }
 
-      setIsProfile(true);
-    }
+      const res = await fetch(url);
+      const data = await res.json();
 
-    setTerm("");
+      if (!res.ok) {
+        setError(data.error || "Failed to fetch client details");
+        return;
+      }
+
+      setAllProfile(Array.isArray(data.clientProfile) ? data.clientProfile : [data.clientProfile]);
+    } catch (error) {
+      setError("An error occurred while fetching client details");
+      console.error("Error fetching profile:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const checkEligibility = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+    setIsProfile(false);
+    setAllProfile([]);
 
-    url = `/api/eligibility?id=${id}`;
+    try {
+      const url = term.trim().length > 0 
+        ? `/api/eligibility?${isNaN(term) ? 'name' : 'id'}=${term}`
+        : null;
 
-    const res = await fetch(url);
-    if (res) {
-      const json = await res.json();
-      setEligibility(json);
+      if (!url) {
+        setError("Please enter a valid name or ID");
+        return;
+      }
 
-      setIsProfile(false);
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (data.profiles) {
+          setError("Multiple clients found. Please use client ID instead.");
+          setAllProfile(data.profiles);
+          return;
+        }
+        setError(data.error || "Failed to check eligibility");
+        return;
+      }
+
+      setEligibility(data);
+    } catch (error) {
+      setError("An error occurred while checking eligibility");
+      console.error("Error checking eligibility:", error);
+    } finally {
+      setLoading(false);
     }
-
-    setTerm("");
   };
 
   return (
@@ -96,26 +103,34 @@ export default function Home() {
               type="text"
               value={term}
               onChange={(e) => setTerm(e.target.value)}
-              placeholder="Client ID or Name"
+              placeholder="Enter Client Name or ID"
+              required
             ></input>
           </div>
-          <div className="flex submitPanel justify-center ">
+          <div className="flex submitPanel justify-center">
             <button
               className={`${styles.btn} ${styles.btnBlue} mx-8`}
               type="submit"
+              disabled={loading}
             >
-              Get Client Details
+              {loading ? "Loading..." : "Get Client Details"}
             </button>
             <button
               onClick={checkEligibility}
               className={`${styles.btn} ${styles.btnBlue}`}
               type="button"
+              disabled={loading}
             >
-              Check Eligibility
+              {loading ? "Loading..." : "Check Loan Eligibility"}
             </button>
           </div>
         </form>
       </div>
+      {error && (
+        <div className="text-red-500 text-center mb-4">
+          {error}
+        </div>
+      )}
       <ClientDetails
         isProfile={isProfile}
         allProfile={allProfile}

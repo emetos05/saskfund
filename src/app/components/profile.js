@@ -29,7 +29,7 @@ const Profile = ({ profile }) => {
         </div>
         <div>
           <h1>Gold Membership</h1>
-          <span>{profile.goldMembership}</span>
+          <span>{profile.financial?.goldMembership === 1 ? "Yes" : "No"}</span>
         </div>
       </div>
     </div>

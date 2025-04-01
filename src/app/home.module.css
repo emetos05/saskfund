@@ -14,7 +14,7 @@
 }
 
 .btnBlue {
-  @apply bg-sky-500 text-white hover:scale-110;
+  @apply bg-sky-500 text-white;
 }
 
 .btnBlue:hover {

@@ -45,6 +45,7 @@ export default function Home() {
       console.error("Error fetching profile:", error);
     } finally {
       setLoading(false);
+      setTerm("");
     }
   };
 
@@ -84,6 +85,7 @@ export default function Home() {
       console.error("Error checking eligibility:", error);
     } finally {
       setLoading(false);
+      setTerm("");
     }
   };
 

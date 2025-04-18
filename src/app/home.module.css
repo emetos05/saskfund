@@ -9,14 +9,60 @@
   height: 25rem;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animateFadeIn {
+  animation: fadeIn 1s ease-out forwards;
+}
+
 .btn {
   @apply font-bold py-2 px-4 rounded transform transition-transform duration-200;
 }
 
 .btnBlue {
-  @apply bg-sky-500 text-white;
+  @apply bg-sky-500 text-white hover:scale-110;
 }
 
 .btnBlue:hover {
   @apply bg-sky-700;
+}
+
+.btnWhite {
+  @apply bg-white text-sky-900 hover:scale-110;
+}
+
+.btnWhite:hover {
+  @apply bg-sky-100;
+}
+
+/* Card hover effects */
+.hoverCard {
+  @apply transition-all duration-300;
+}
+
+.hoverCard:hover {
+  @apply transform -translate-y-1 shadow-lg;
+}
+
+/* Loading spinner */
+.spinner {
+  @apply animate-spin h-5 w-5 text-white;
+}
+
+/* Feature icons */
+.featureIcon {
+  @apply text-sky-600 mb-4 transition-transform duration-300;
+}
+
+.featureIcon:hover {
+  @apply transform scale-110;
 }

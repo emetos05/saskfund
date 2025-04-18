@@ -1,143 +1,124 @@
 "use client";
-import { useState } from "react";
-
+import Link from "next/link";
+import Image from "next/image";
+import { FaShieldAlt, FaRocket, FaUserFriends, FaChartLine, FaHandshake, FaMobileAlt } from "react-icons/fa";
 import styles from "./home.module.css";
-// import AllProfile from "./components/allProfile";
-// import Eligibility from "@/components/eligibility";
-import ClientDetails from "./components/clientDetails";
 
 export default function Home() {
-  const [term, setTerm] = useState("");
-  const [isProfile, setIsProfile] = useState(false);
-  const [allProfile, setAllProfile] = useState([]);
-  const [eligibility, setEligibility] = useState({});
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const getClient = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    setIsProfile(true);
-    setEligibility({});
-
-    try {
-      const url = term.trim().length > 0 
-        ? `/api/profile?${isNaN(term) ? 'name' : 'id'}=${term}`
-        : null;
-
-      if (!url) {
-        setError("Please enter a valid name or ID");
-        return;
-      }
-
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Failed to fetch client details");
-        return;
-      }
-
-      setAllProfile(Array.isArray(data.clientProfile) ? data.clientProfile : [data.clientProfile]);
-    } catch (error) {
-      setError("An error occurred while fetching client details");
-      console.error("Error fetching profile:", error);
-    } finally {
-      setLoading(false);
-      setTerm("");
-    }
-  };
-
-  const checkEligibility = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    setIsProfile(false);
-    setAllProfile([]);
-
-    try {
-      const url = term.trim().length > 0 
-        ? `/api/eligibility?${isNaN(term) ? 'name' : 'id'}=${term}`
-        : null;
-
-      if (!url) {
-        setError("Please enter a valid name or ID");
-        return;
-      }
-
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (data.profiles) {
-          setError("Multiple clients found. Please use client ID instead.");
-          setAllProfile(data.profiles);
-          return;
-        }
-        setError(data.error || "Failed to check eligibility");
-        return;
-      }
-
-      setEligibility(data);
-    } catch (error) {
-      setError("An error occurred while checking eligibility");
-      console.error("Error checking eligibility:", error);
-    } finally {
-      setLoading(false);
-      setTerm("");
-    }
-  };
-
   return (
-    <section className="flex flex-col">
-      <div className={`${styles.intro} text-white mb-8`}>
-        <div className="flex font-semibold text-lg justify-center mb-9">
-          Dream big with SaskFund Co.
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/home.jpg"
+            alt="Background"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-sky-900/80 to-sky-700/80"></div>
         </div>
-        <form onSubmit={getClient}>
-          <div className="flex input justify-center mb-9">
-            <label htmlFor="searchTerm" className="mr-8"></label>
-            <input
-              id="searchTerm"
-              className="rounded px-3 py-4 w-96 text-black"
-              name="search"
-              type="text"
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
-              placeholder="Enter Client Name or ID"
-              required
-            ></input>
+        
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <h1 className={`text-5xl md:text-6xl font-bold text-white mb-6 ${styles.animateFadeIn}`}>
+            Welcome to SaskFund
+          </h1>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Your trusted partner in financial solutions. We help you achieve your dreams with personalized loan options and expert guidance.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Link href="/register" className={`${styles.btn} ${styles.btnWhite}`}>
+              Register Now
+            </Link>
+            <Link href="/search" className={`${styles.btn} ${styles.btnBlue}`}>
+              Search Clients
+            </Link>
           </div>
-          <div className="flex submitPanel justify-center">
-            <button
-              className={`${styles.btn} ${styles.btnBlue} mx-8`}
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? "Loading..." : "Get Client Details"}
-            </button>
-            <button
-              onClick={checkEligibility}
-              className={`${styles.btn} ${styles.btnBlue}`}
-              type="button"
-              disabled={loading}
-            >
-              {loading ? "Loading..." : "Check Loan Eligibility"}
-            </button>
-          </div>
-        </form>
-      </div>
-      {error && (
-        <div className="text-red-500 text-center mb-4">
-          {error}
         </div>
-      )}
-      <ClientDetails
-        isProfile={isProfile}
-        allProfile={allProfile}
-        eligibility={eligibility}
-      />
-    </section>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-sky-900 mb-12">
+            Why Choose SaskFund?
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className={`p-6 rounded-xl bg-sky-50 ${styles.hoverCard}`}>
+              <div className="feature-icon">
+                <FaShieldAlt className="w-12 h-12" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Secure & Reliable</h3>
+              <p className="text-gray-600">Your financial data is protected with industry-leading security measures.</p>
+            </div>
+            <div className={`p-6 rounded-xl bg-sky-50 ${styles.hoverCard}`}>
+              <div className="feature-icon">
+                <FaRocket className="w-12 h-12" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Fast Processing</h3>
+              <p className="text-gray-600">Quick loan eligibility checks and instant client profile access.</p>
+            </div>
+            <div className={`p-6 rounded-xl bg-sky-50 ${styles.hoverCard}`}>
+              <div className="feature-icon">
+                <FaUserFriends className="w-12 h-12" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Personalized Service</h3>
+              <p className="text-gray-600">Tailored financial solutions for each client's unique needs.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="py-20 bg-sky-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-sky-900 mb-12">
+            Our Benefits
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className={`p-6 rounded-xl bg-white ${styles.hoverCard}`}>
+              <div className="feature-icon">
+                <FaChartLine className="w-12 h-12" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Competitive Rates</h3>
+              <p className="text-gray-600">Enjoy some of the most competitive interest rates in the market.</p>
+            </div>
+            <div className={`p-6 rounded-xl bg-white ${styles.hoverCard}`}>
+              <div className="feature-icon">
+                <FaHandshake className="w-12 h-12" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Flexible Terms</h3>
+              <p className="text-gray-600">Choose repayment plans that work best for your financial situation.</p>
+            </div>
+            <div className={`p-6 rounded-xl bg-white ${styles.hoverCard}`}>
+              <div className="feature-icon">
+                <FaMobileAlt className="w-12 h-12" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Easy Access</h3>
+              <p className="text-gray-600">Manage your account and track your progress anytime, anywhere.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-sky-900 text-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
+          <p className="text-xl mb-8 text-sky-100">
+            Join thousands of satisfied clients who have achieved their financial goals with SaskFund.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Link href="/register" className={`${styles.btn} ${styles.btnWhite}`}>
+              Create Account
+            </Link>
+            <Link href="/search" className={`${styles.btn} ${styles.btnBlue}`}>
+              Search Clients
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

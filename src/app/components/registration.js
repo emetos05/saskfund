@@ -63,7 +63,7 @@ const Registration = () => {
     <div className="grid justify-items-center">
       <form 
         onSubmit={handleSubmit}
-        className={`${styles.clientData} grid grid-cols-2 gap-4 content-start h-auto w-1/2 m-4 p-4 rounded border shadow`}
+        className="grid grid-cols-2 gap-4 content-start h-auto w-1/2 m-4 p-4 rounded border shadow"
       >
         <div>
           <h1>Name</h1>

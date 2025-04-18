@@ -93,12 +93,14 @@ const Registration = () => {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-600">Age</label>
+          <label className="block text-sm font-semibold text-gray-600">Age (Years)</label>
           <input
             type="number"
             name="age"
             value={formData.age}
             onChange={handleChange}
+            min="19"
+            max="56"
             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
             required
           />
@@ -106,69 +108,97 @@ const Registration = () => {
 
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-gray-600">City</label>
-          <input
-            type="text"
+          <select
             name="city"
             value={formData.city}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-          />
+          >
+            <option value="">Select City</option>
+            <option value="Regina">Regina</option>
+            <option value="Saskatoon">Saskatoon</option>
+            <option value="Moose Jaw">Moose Jaw</option>
+            <option value="North Battleford">North Battleford</option>
+          </select>
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-600">Length at Residence (years)</label>
+          <label className="block text-sm font-semibold text-gray-600">Length at Residence (Years)</label>
           <input
             type="number"
             name="lengthAtResidence"
             value={formData.lengthAtResidence}
             onChange={handleChange}
+            min="0"
+            max="38"
             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-600">Education</label>
-          <input
-            type="text"
+          <label className="block text-sm font-semibold text-gray-600">Education Level</label>
+          <select
             name="education"
             value={formData.education}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-600">Income</label>
-          <input
-            type="number"
-            name="income"
-            value={formData.income}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
             required
-          />
+          >
+            <option value="">Select Education Level</option>
+            <option value="0">No Formal Education</option>
+            <option value="1">Primary Education</option>
+            <option value="2">Secondary Education</option>
+            <option value="3">Post-Secondary Education</option>
+            <option value="4">Graduate Education</option>
+          </select>
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-600">House Value</label>
-          <input
-            type="number"
-            name="houseValue"
-            value={formData.houseValue}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-            required
-          />
+          <label className="block text-sm font-semibold text-gray-600">Annual Income ($)</label>
+          <div className="relative">
+            <span className="absolute left-3 top-2 text-gray-500">$</span>
+            <input
+              type="number"
+              name="income"
+              value={formData.income}
+              onChange={handleChange}
+              min="20000"
+              max="150000"
+              step="1000"
+              className="w-full pl-7 pr-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+              required
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-600">Employment Years</label>
+          <label className="block text-sm font-semibold text-gray-600">House Value ($)</label>
+          <div className="relative">
+            <span className="absolute left-3 top-2 text-gray-500">$</span>
+            <input
+              type="number"
+              name="houseValue"
+              value={formData.houseValue}
+              onChange={handleChange}
+              min="50000"
+              max="1000000"
+              step="1000"
+              className="w-full pl-7 pr-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-semibold text-gray-600">Employment Duration (Years)</label>
           <input
             type="number"
             name="employmentYears"
             value={formData.employmentYears}
             onChange={handleChange}
+            min="0"
+            max="35"
             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
             required
           />
@@ -176,44 +206,76 @@ const Registration = () => {
 
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-gray-600">Employment Category</label>
-          <input
-            type="text"
+          <select
             name="employmentCategory"
             value={formData.employmentCategory}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
             required
-          />
+          >
+            <option value="">Select Category</option>
+            <option value="-1">Unskilled</option>
+            <option value="1">Self-employed</option>
+            <option value="2">Skilled</option>
+            <option value="3">Professional</option>
+            <option value="4">Management</option>
+          </select>
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-600">Credit Card Debt</label>
-          <input
-            type="number"
-            name="creditCardDebt"
-            value={formData.creditCardDebt}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-            required
-          />
+          <label className="block text-sm font-semibold text-gray-600">Credit Card Debt ($)</label>
+          <div className="relative">
+            <span className="absolute left-3 top-2 text-gray-500">$</span>
+            <input
+              type="number"
+              name="creditCardDebt"
+              value={formData.creditCardDebt}
+              onChange={handleChange}
+              min="0"
+              max="50000"
+              step="100"
+              className="w-full pl-7 pr-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+              required
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-600">Charitable Donations</label>
-          <input
-            type="number"
-            name="charitableDonations"
-            value={formData.charitableDonations}
+          <label className="block text-sm font-semibold text-gray-600">Charitable Donations ($)</label>
+          <div className="relative">
+            <span className="absolute left-3 top-2 text-gray-500">$</span>
+            <input
+              type="number"
+              name="charitableDonations"
+              value={formData.charitableDonations}
+              onChange={handleChange}
+              min="0"
+              max="10000"
+              step="100"
+              className="w-full pl-7 pr-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="col-span-1 md:col-span-2 space-y-2">
+          <label className="block text-sm font-semibold text-gray-600">Gold Membership</label>
+          <select
+            name="goldMembership"
+            value={formData.goldMembership}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
             required
-          />
+          >
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
         </div>
 
-        <div className="col-span-1 md:col-span-2 flex justify-center">
+        <div className="col-span-1 md:col-span-2 flex justify-center mt-6">
           <button
             type="submit"
-            className="w-full md:w-auto px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+            className="w-full sm:w-auto px-6 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
           >
             Register
           </button>

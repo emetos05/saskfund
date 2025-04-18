@@ -46,21 +46,21 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className={`p-6 rounded-xl bg-sky-50 ${styles.hoverCard}`}>
-              <div className="feature-icon">
+              <div className="featureIcon">
                 <FaShieldAlt className="w-12 h-12" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Secure & Reliable</h3>
               <p className="text-gray-600">Your financial data is protected with industry-leading security measures.</p>
             </div>
             <div className={`p-6 rounded-xl bg-sky-50 ${styles.hoverCard}`}>
-              <div className="feature-icon">
+              <div className="featureIcon">
                 <FaRocket className="w-12 h-12" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Fast Processing</h3>
               <p className="text-gray-600">Quick loan eligibility checks and instant client profile access.</p>
             </div>
             <div className={`p-6 rounded-xl bg-sky-50 ${styles.hoverCard}`}>
-              <div className="feature-icon">
+              <div className="featureIcon">
                 <FaUserFriends className="w-12 h-12" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Personalized Service</h3>
@@ -78,21 +78,21 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className={`p-6 rounded-xl bg-white ${styles.hoverCard}`}>
-              <div className="feature-icon">
+              <div className="featureIcon">
                 <FaChartLine className="w-12 h-12" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Competitive Rates</h3>
               <p className="text-gray-600">Enjoy some of the most competitive interest rates in the market.</p>
             </div>
             <div className={`p-6 rounded-xl bg-white ${styles.hoverCard}`}>
-              <div className="feature-icon">
+              <div className="featureIcon">
                 <FaHandshake className="w-12 h-12" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Flexible Terms</h3>
               <p className="text-gray-600">Choose repayment plans that work best for your financial situation.</p>
             </div>
             <div className={`p-6 rounded-xl bg-white ${styles.hoverCard}`}>
-              <div className="feature-icon">
+              <div className="featureIcon">
                 <FaMobileAlt className="w-12 h-12" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Easy Access</h3>

@@ -87,33 +87,33 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-sky-100 py-12">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-xl shadow-xl p-8 transform transition-all duration-300 hover:shadow-2xl">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-sky-900 mb-4">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-sky-100 py-6 sm:py-8 md:py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-xl shadow-xl p-4 sm:p-6 md:p-8 transform transition-all duration-300 hover:shadow-2xl">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-sky-900 mb-2 sm:mb-4">
               Client Search
             </h1>
-            <p className="text-gray-600">
+            <p className="text-sm sm:text-base text-gray-600">
               Search by name or ID to view client details or check loan eligibility
             </p>
           </div>
 
-          <form onSubmit={getClient} className="space-y-6">
-            <div className="flex flex-col md:flex-row gap-4">
+          <form onSubmit={getClient} className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row gap-4">
               <input
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
                 type="text"
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
                 placeholder="Enter Client Name or ID"
                 required
               />
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-6 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[200px]"
+                  className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[200px]"
                 >
                   {loading ? (
                     <span className="flex items-center">
@@ -134,7 +134,7 @@ export default function SearchPage() {
                   onClick={checkEligibility}
                   type="button"
                   disabled={loading}
-                  className="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[200px]"
+                  className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[200px]"
                 >
                   {loading ? (
                     <span className="flex items-center">
@@ -156,14 +156,14 @@ export default function SearchPage() {
           </form>
 
           {error && (
-            <div className="mt-4 p-4 bg-red-50 text-red-600 rounded-lg">
+            <div className="mt-4 p-3 sm:p-4 bg-red-50 text-red-600 rounded-lg text-sm sm:text-base">
               {error}
             </div>
           )}
         </div>
 
         {/* Results Section */}
-        <div className="mt-8">
+        <div className="mt-6 sm:mt-8 w-full">
           <ClientDetails
             isProfile={isProfile}
             allProfile={allProfile}

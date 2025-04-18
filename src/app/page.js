@@ -64,7 +64,7 @@ export default function Home() {
                 <FaUserFriends className="w-12 h-12" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Personalized Service</h3>
-              <p className="text-gray-600">Tailored financial solutions for each client's unique needs.</p>
+              <p className="text-gray-600">Tailored financial solutions for each client&apos;s unique needs.</p>
             </div>
           </div>
         </div>

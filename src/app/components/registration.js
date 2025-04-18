@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "../home.module.css";
 
 const Registration = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
@@ -29,25 +31,18 @@ const Registration = () => {
         body: JSON.stringify(formData),
       });
       if (res.ok) {
-        alert('Registration successful!');
-        setFormData({
-          name: "",
-          gender: "",
-          age: "",
-          city: "",
-          lengthAtResidence: "",
-          education: "",
-          income: "",
-          houseValue: "",
-          employmentYears: "",
-          employmentCategory: "",
-          creditCardDebt: "",
-          charitableDonations: "",
-          goldMembership: "0"
-        });
+        alert('Registration successful! Redirecting to search page...');
+        // Add a small delay before redirecting
+        setTimeout(() => {
+          router.push('/search');
+        }, 1000);
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Registration failed. Please try again.');
       }
     } catch (error) {
       console.error('Registration failed:', error);
+      alert('Registration failed. Please try again.');
     }
   };
 

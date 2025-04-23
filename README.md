@@ -2,7 +2,7 @@
 
 A Next.js application for managing client profiles and checking loan eligibility for SaskFund Co.
 
-Project Link: [https://saskfund.up.railway.app/](https://saskfund.up.railway.app/)
+Project Link: [Saskfund App/](https://saskfund.up.railway.app/)
 
 ## Features
 

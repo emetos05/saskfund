@@ -23,10 +23,6 @@ A Next.js application for managing client profiles and checking loan eligibility
 - PostgreSQL
 - npm or yarn
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Contact
 
 LinkedIn - [Daniel Emehinola](https://linkedin.com/in/danielemehin/)

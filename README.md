@@ -18,7 +18,6 @@ Project Link: [https://saskfund.up.railway.app/](https://saskfund.up.railway.app
 - **Styling**: TailwindCSS
 - **Database**: PostgreSQL
 - **ORM**: Prisma 5.5.2
-- **Deployment**: Railway
 
 ## Prerequisites
 

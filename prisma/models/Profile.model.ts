@@ -7,6 +7,4 @@ export const Profile = {
   city: true,
   lengthAtResidence: true,
   education: true,
-} satisfies Prisma.ProfileSelect;
-
-export type Profile = Prisma.ProfileGetPayload<{ select: typeof Profile }>;
+};

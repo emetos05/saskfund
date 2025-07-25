@@ -9,8 +9,4 @@ export const Financial = {
   creditCardDebt: true,
   charitableDonations: true,
   goldMembership: true,
-} satisfies Prisma.FinancialSelect;
-
-export type Financial = Prisma.FinancialGetPayload<{
-  select: typeof Financial;
-}>;
+};

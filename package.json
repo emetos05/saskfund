@@ -6,10 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
-  },
-  "prisma": {
-    "seed": "node prisma/seed.js"
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:seed": "node prisma/seed.js",
+    "prisma:studio": "prisma studio",
+    "deploy:db": "docker-compose -f docker-compose.prod.yml up -d",
+    "deploy:netlify": "netlify deploy --prod",
+    "deploy": "npm run deploy:db && npm run prisma:migrate:deploy && npm run prisma:seed && npm run deploy:netlify"
   },
   "dependencies": {
     "@prisma/client": "^6.12.0",
